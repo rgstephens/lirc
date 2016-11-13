@@ -1,0 +1,467 @@
+# This is a modification of the Series 2 Tivo remote lircd.conf file
+# created by John Deluca to support the new Tivo Glo Backlit remotes
+# which were introduced in 2006, and are supplied with the Tivo Series 3
+# HD recorders.  For some reason, the TIVO button codes changed.  It's
+# not clear to me how this should be the case, since the original Series 2
+# Tivos apparently can accept either code.  In any event, in order to get
+# this button working you need to change the code, and I've done so for
+# the TIVO, 1_TIVO and 2_TIVO buttons below.  I have not made any
+# changes to the 3_TIVO and higher numbers, since I was unable to determine
+# how to change them.
+#
+# The Tivo Glo remote supports the 1-2 DVR switch as noted below.  It also
+# is a "learning" remote and the following buttons can be taught new
+# instructions by pointing a remote at it: TV Power, Input, Vol Up, Vol Down,
+# Mute.
+
+# To program a button, press the Tivo button and Select simultaneously
+# for 3 seconds until the red activity light remains lit.
+# On the Tivo remote, press and release the button you want to program;
+# i.e. TV Power.  The activity light will flash once, then remain lit.
+# Next, point the remotes directly at each other, about 4 inches apart
+# and press the button you wish to program, in this case the TV power button.
+# If learning is successful, the Tivo activity light will flash 4 times.
+# If it is not successful, it will blink 10 times rapidly.
+# To leave learning mode, press the Tivo button once.
+#
+# To save power on the Tivo remote by not having the backlight activate
+# automatically, press and hold the Tivo button and the Thumbs Down key
+# for 3 seconds - the activity light will flash 3 times.
+# To turn the backlight feature back on, press and hold the Tivo button
+# and the Thumbs Up key for 3 seconds until the activity light flashes 3 times.
+#
+# BEGIN Prior instructions:
+# This conf file allows the support of Tivo Glo Backlit remote.  In particular,
+# it allows for the unique key definitions for each of the 39 keys when DVR
+# Switch is in positon 1 or 2.  This essentially doubles the number of keys
+# one can use just by toggling between DVR 1 and 2.  For example, an lircrc
+# file can be programmed to execute one thing when the play button is pressed
+# when in DVR 1 mode and execute a different function when the same key is
+# pressed when in DVR 2 mode.
+#
+# In order to use this, one must first set the remote.  Move the DVR SWITCH
+# to 1.  Next, Press and hold the PAUSE and TiVo buttons simultaneously
+# until the red light at the end of the remote control comes on, remains
+# steady, and then stays on when you release the buttons.  Now press 1.
+# Do the same when switched to DVR 2 (assigning it to a number 2).
+#
+# Now you can use the codes below.  All the functions which begin with a 1
+# are associated with the DVR1 switch and those prefixed with 2 are assoc
+# with DVR 2 switch.  Since the remote allows it to be programmed with any
+# number between 0 and 9 (zero is the default), all the codes are provided
+# below,  A remote set to 0 will control any tivo, and a tivo set to
+# 0 will accept any remote.
+
+# My lircrc file for MythTV with this remote can be found here:
+# http://home.comcast.net/~johnfdeluca/lircrc.txt
+begin remote
+
+  name  tivoglonew
+  bits           16
+  flags SPACE_ENC|CONST_LENGTH
+  eps            30
+  aeps          100
+
+  one           579  1636
+  zero          579   524
+  ptrail        570
+  repeat       9011  2217
+  pre_data_bits   16
+  pre_data       0xA10C
+  gap          107530
+  toggle_bit_mask 0x0
+
+      begin codes
+          TIVO                     0xC500F
+          TV_POWER                 0xC0807
+          TV_INPUT                 0xC2C03
+          WINDOW                   0xC220D
+          KEY_TV                   0xC8807        #  Was: LIVE_TV
+          KEY_INFO                 0xCC807        #  Was: INFO
+          KEY_INFO                 0xC6C03        #  Was: GUIDE
+          KEY_UP                   0xC2807        #  Was: UP
+          KEY_LEFT                 0xCE807        #  Was: LEFT
+          KEY_RIGHT                0xCA807        #  Was: RIGHT
+          KEY_DOWN                 0xC6807        #  Was: DOWN
+          KEY_SELECT               0xC9807        #  Was: SELECT
+          TH_DOWN                  0xC1807
+          TH_UP                    0xC5807
+          KEY_VOLUMEUP             0xC3807        #  Was: VOL_UP
+          KEY_VOLUMEDOWN           0xCB807        #  Was: VOL_DOWN
+          KEY_MUTE                 0xCD807        #  Was: MUTE
+          KEY_RECORD               0xC040B        #  Was: RECORD
+          KEY_CHANNELUP            0xC7807        #  Was: CH/PAGE_UP
+          KEY_CHANNELDOWN          0xCF807        #  Was: CH/PAGE_DOWN
+          KEY_PLAY                 0xC840B        #  Was: PLAY
+          KEY_REWIND               0xC440B        #  Was: REWIND
+          KEY_PAUSE                0xCC40B        #  Was: PAUSE
+          KEY_FORWARD              0xC240B        #  Was: FORWARD
+          KEY_SLOW                 0xCA40B        #  Was: SLOW
+          KEY_AGAIN                0xC640B        #  Was: REPLAY
+          JUMP                     0xCE40B
+          KEY_1                    0xC140B        #  Was: 1
+          KEY_2                    0xC940B        #  Was: 2
+          KEY_3                    0xC540B        #  Was: 3
+          KEY_4                    0xCD40B        #  Was: 4
+          KEY_5                    0xC340B        #  Was: 5
+          KEY_6                    0xCB40B        #  Was: 6
+          KEY_7                    0xC740B        #  Was: 7
+          KEY_8                    0xCF40B        #  Was: 8
+          KEY_9                    0xC0C03        #  Was: 9
+          KEY_CLEAR                0xC4C03        #  Was: CLEAR
+          KEY_0                    0xC8C03        #  Was: 0
+          ENTER/LAST               0xCCC03
+          X_KEY_1_TIVO             0xC508F        #  Was: KEY_1_TIVO
+          X_KEY_1_TV_POWER         0xC0887        #  Was: KEY_1_TV_POWER
+          X_KEY_1_TV_INPUT         0xC2C83        #  Was: KEY_1_TV_INPUT
+          X_KEY_1_WINDOW           0xC228D        #  Was: KEY_1_WINDOW
+          X_KEY_1_LIVE_TV          0xC8887        #  Was: KEY_1_LIVE_TV
+          X_KEY_1_INFO             0xCC887        #  Was: KEY_1_INFO
+          X_KEY_1_GUIDE            0xC6C83        #  Was: KEY_1_GUIDE
+          X_KEY_1_UP               0xC2887        #  Was: KEY_1_UP
+          X_KEY_1_LEFT             0xCE887        #  Was: KEY_1_LEFT
+          X_KEY_1_RIGHT            0xCA887        #  Was: KEY_1_RIGHT
+          X_KEY_1_DOWN             0xC6887        #  Was: KEY_1_DOWN
+          X_KEY_1_SELECT           0xC9887        #  Was: KEY_1_SELECT
+          X_KEY_1_TH_DOWN          0xC1887        #  Was: KEY_1_TH_DOWN
+          X_KEY_1_TH_UP            0xC5887        #  Was: KEY_1_TH_UP
+          X_KEY_1_VOL_UP           0xC3887        #  Was: KEY_1_VOL_UP
+          X_KEY_1_VOL_DOWN         0xCB887        #  Was: KEY_1_VOL_DOWN
+          X_KEY_1_MUTE             0xCD887        #  Was: KEY_1_MUTE
+          X_KEY_1_RECORD           0xC048B        #  Was: KEY_1_RECORD
+          X_KEY_1_CH/PAGE_UP       0xC7887        #  Was: KEY_1_CH/PAGE_UP
+          X_KEY_1_CH/PAGE_DOWN     0xCF887        #  Was: KEY_1_CH/PAGE_DOWN
+          X_KEY_1_PLAY             0xC848B        #  Was: KEY_1_PLAY
+          X_KEY_1_REWIND           0xC448B        #  Was: KEY_1_REWIND
+          X_KEY_1_PAUSE            0xCC48B        #  Was: KEY_1_PAUSE
+          X_KEY_1_FORWARD          0xC248B        #  Was: KEY_1_FORWARD
+          X_KEY_1_SLOW             0xCA48B        #  Was: KEY_1_SLOW
+          X_KEY_1_REPLAY           0xC648B        #  Was: KEY_1_REPLAY
+          X_KEY_1_JUMP             0xCE48B        #  Was: KEY_1_JUMP
+          KEY_1                    0xC148B        #  Was: 1_1
+          KEY_2                    0xC948B        #  Was: 1_2
+          KEY_3                    0xC548B        #  Was: 1_3
+          KEY_4                    0xCD48B        #  Was: 1_4
+          KEY_5                    0xC348B        #  Was: 1_5
+          KEY_6                    0xCB48B        #  Was: 1_6
+          KEY_7                    0xC748B        #  Was: 1_7
+          KEY_8                    0xCF48B        #  Was: 1_8
+          KEY_9                    0xC0C83        #  Was: 1_9
+          X_KEY_1_CLEAR            0xC4C83        #  Was: KEY_1_CLEAR
+          KEY_0                    0xC8C83        #  Was: 1_0
+          X_KEY_1_ENTER/LAST       0xCCC83        #  Was: KEY_1_ENTER/LAST
+          X_KEY_2_TIVO             0xC504F        #  Was: KEY_2_TIVO
+          X_KEY_2_TV_POWER         0xC0847        #  Was: KEY_2_TV_POWER
+          X_KEY_2_TV_INPUT         0xC2C43        #  Was: KEY_2_TV_INPUT
+          X_KEY_2_WINDOW           0xC224D        #  Was: KEY_2_WINDOW
+          X_KEY_2_LIVE_TV          0xC8847        #  Was: KEY_2_LIVE_TV
+          X_KEY_2_INFO             0xCC847        #  Was: KEY_2_INFO
+          X_KEY_2_GUIDE            0xC6C43        #  Was: KEY_2_GUIDE
+          X_KEY_2_UP               0xC2847        #  Was: KEY_2_UP
+          X_KEY_2_LEFT             0xCE847        #  Was: KEY_2_LEFT
+          X_KEY_2_RIGHT            0xCA847        #  Was: KEY_2_RIGHT
+          X_KEY_2_DOWN             0xC6847        #  Was: KEY_2_DOWN
+          X_KEY_2_SELECT           0xC9847        #  Was: KEY_2_SELECT
+          X_KEY_2_TH_DOWN          0xC1847        #  Was: KEY_2_TH_DOWN
+          X_KEY_2_TH_UP            0xC5847        #  Was: KEY_2_TH_UP
+          X_KEY_2_VOL_UP           0xC3847        #  Was: KEY_2_VOL_UP
+          X_KEY_2_VOL_DOWN         0xCB847        #  Was: KEY_2_VOL_DOWN
+          X_KEY_2_MUTE             0xCD847        #  Was: KEY_2_MUTE
+          X_KEY_2_RECORD           0xC044B        #  Was: KEY_2_RECORD
+          X_KEY_2_CH/PAGE_UP       0xC7847        #  Was: KEY_2_CH/PAGE_UP
+          X_KEY_2_CH/PAGE_DOWN     0xCF847        #  Was: KEY_2_CH/PAGE_DOWN
+          X_KEY_2_PLAY             0xC844B        #  Was: KEY_2_PLAY
+          X_KEY_2_REWIND           0xC444B        #  Was: KEY_2_REWIND
+          X_KEY_2_PAUSE            0xCC44B        #  Was: KEY_2_PAUSE
+          X_KEY_2_FORWARD          0xC244B        #  Was: KEY_2_FORWARD
+          X_KEY_2_SLOW             0xCA44B        #  Was: KEY_2_SLOW
+          X_KEY_2_REPLAY           0xC644B        #  Was: KEY_2_REPLAY
+          X_KEY_2_JUMP             0xCE44B        #  Was: KEY_2_JUMP
+          KEY_1                    0xC144B        #  Was: 2_1
+          KEY_2                    0xC944B        #  Was: 2_2
+          KEY_3                    0xC544B        #  Was: 2_3
+          KEY_4                    0xCD44B        #  Was: 2_4
+          KEY_5                    0xC344B        #  Was: 2_5
+          KEY_6                    0xCB44B        #  Was: 2_6
+          KEY_7                    0xC744B        #  Was: 2_7
+          KEY_8                    0xCF44B        #  Was: 2_8
+          KEY_9                    0xC0C43        #  Was: 2_9
+          X_KEY_2_CLEAR            0xC4C43        #  Was: KEY_2_CLEAR
+          KEY_0                    0xC8C43        #  Was: 2_0
+          X_KEY_2_ENTER/LAST       0xCCC43        #  Was: KEY_2_ENTER/LAST
+          X_KEY_3_TIVO             0xCE0cF        #  Was: KEY_3_TIVO
+          X_KEY_3_TV_POWER         0xC08c7        #  Was: KEY_3_TV_POWER
+          X_KEY_3_TV_INPUT         0xC2Cc3        #  Was: KEY_3_TV_INPUT
+          X_KEY_3_WINDOW           0xC22cD        #  Was: KEY_3_WINDOW
+          X_KEY_3_LIVE_TV          0xC88c7        #  Was: KEY_3_LIVE_TV
+          X_KEY_3_INFO             0xCC8c7        #  Was: KEY_3_INFO
+          X_KEY_3_GUIDE            0xC6Cc3        #  Was: KEY_3_GUIDE
+          X_KEY_3_UP               0xC28c7        #  Was: KEY_3_UP
+          X_KEY_3_LEFT             0xCE8c7        #  Was: KEY_3_LEFT
+          X_KEY_3_RIGHT            0xCA8c7        #  Was: KEY_3_RIGHT
+          X_KEY_3_DOWN             0xC68c7        #  Was: KEY_3_DOWN
+          X_KEY_3_SELECT           0xC98c7        #  Was: KEY_3_SELECT
+          X_KEY_3_TH_DOWN          0xC18c7        #  Was: KEY_3_TH_DOWN
+          X_KEY_3_TH_UP            0xC58c7        #  Was: KEY_3_TH_UP
+          X_KEY_3_VOL_UP           0xC38c7        #  Was: KEY_3_VOL_UP
+          X_KEY_3_VOL_DOWN         0xCB8c7        #  Was: KEY_3_VOL_DOWN
+          X_KEY_3_MUTE             0xCD8c7        #  Was: KEY_3_MUTE
+          X_KEY_3_RECORD           0xC04cB        #  Was: KEY_3_RECORD
+          X_KEY_3_CH/PAGE_UP       0xC78c7        #  Was: KEY_3_CH/PAGE_UP
+          X_KEY_3_CH/PAGE_DOWN     0xCF8c7        #  Was: KEY_3_CH/PAGE_DOWN
+          X_KEY_3_PLAY             0xC84cB        #  Was: KEY_3_PLAY
+          X_KEY_3_REWIND           0xC44cB        #  Was: KEY_3_REWIND
+          X_KEY_3_PAUSE            0xCC4cB        #  Was: KEY_3_PAUSE
+          X_KEY_3_FORWARD          0xC24cB        #  Was: KEY_3_FORWARD
+          X_KEY_3_SLOW             0xCA4cB        #  Was: KEY_3_SLOW
+          X_KEY_3_REPLAY           0xC64cB        #  Was: KEY_3_REPLAY
+          X_KEY_3_JUMP             0xCE4cB        #  Was: KEY_3_JUMP
+          KEY_1                    0xC14cB        #  Was: 3_1
+          KEY_2                    0xC94cB        #  Was: 3_2
+          KEY_3                    0xC54cB        #  Was: 3_3
+          KEY_4                    0xCD4cB        #  Was: 3_4
+          KEY_5                    0xC34cB        #  Was: 3_5
+          KEY_6                    0xCB4cB        #  Was: 3_6
+          KEY_7                    0xC74cB        #  Was: 3_7
+          KEY_8                    0xCF4cB        #  Was: 3_8
+          KEY_9                    0xC0Cc3        #  Was: 3_9
+          X_KEY_3_CLEAR            0xC4Cc3        #  Was: KEY_3_CLEAR
+          KEY_0                    0xC8Cc3        #  Was: 3_0
+          X_KEY_3_ENTER/LAST       0xCCCc3        #  Was: KEY_3_ENTER/LAST
+          X_KEY_4_TIVO             0xCE02F        #  Was: KEY_4_TIVO
+          X_KEY_4_TV_POWER         0xC0827        #  Was: KEY_4_TV_POWER
+          X_KEY_4_TV_INPUT         0xC2C23        #  Was: KEY_4_TV_INPUT
+          X_KEY_4_WINDOW           0xC222D        #  Was: KEY_4_WINDOW
+          X_KEY_4_LIVE_TV          0xC8827        #  Was: KEY_4_LIVE_TV
+          X_KEY_4_INFO             0xCC827        #  Was: KEY_4_INFO
+          X_KEY_4_GUIDE            0xC6C23        #  Was: KEY_4_GUIDE
+          X_KEY_4_UP               0xC2827        #  Was: KEY_4_UP
+          X_KEY_4_LEFT             0xCE827        #  Was: KEY_4_LEFT
+          X_KEY_4_RIGHT            0xCA827        #  Was: KEY_4_RIGHT
+          X_KEY_4_DOWN             0xC6827        #  Was: KEY_4_DOWN
+          X_KEY_4_SELECT           0xC9827        #  Was: KEY_4_SELECT
+          X_KEY_4_TH_DOWN          0xC1827        #  Was: KEY_4_TH_DOWN
+          X_KEY_4_TH_UP            0xC5827        #  Was: KEY_4_TH_UP
+          X_KEY_4_VOL_UP           0xC3827        #  Was: KEY_4_VOL_UP
+          X_KEY_4_VOL_DOWN         0xCB827        #  Was: KEY_4_VOL_DOWN
+          X_KEY_4_MUTE             0xCD827        #  Was: KEY_4_MUTE
+          X_KEY_4_RECORD           0xC042B        #  Was: KEY_4_RECORD
+          X_KEY_4_CH/PAGE_UP       0xC7827        #  Was: KEY_4_CH/PAGE_UP
+          X_KEY_4_CH/PAGE_DOWN     0xCF827        #  Was: KEY_4_CH/PAGE_DOWN
+          X_KEY_4_PLAY             0xC842B        #  Was: KEY_4_PLAY
+          X_KEY_4_REWIND           0xC442B        #  Was: KEY_4_REWIND
+          X_KEY_4_PAUSE            0xCC42B        #  Was: KEY_4_PAUSE
+          X_KEY_4_FORWARD          0xC242B        #  Was: KEY_4_FORWARD
+          X_KEY_4_SLOW             0xCA42B        #  Was: KEY_4_SLOW
+          X_KEY_4_REPLAY           0xC642B        #  Was: KEY_4_REPLAY
+          X_KEY_4_JUMP             0xCE42B        #  Was: KEY_4_JUMP
+          KEY_1                    0xC142B        #  Was: 4_1
+          KEY_2                    0xC942B        #  Was: 4_2
+          KEY_3                    0xC542B        #  Was: 4_3
+          KEY_4                    0xCD42B        #  Was: 4_4
+          KEY_5                    0xC342B        #  Was: 4_5
+          KEY_6                    0xCB42B        #  Was: 4_6
+          KEY_7                    0xC742B        #  Was: 4_7
+          KEY_8                    0xCF42B        #  Was: 4_8
+          KEY_9                    0xC0C23        #  Was: 4_9
+          X_KEY_4_CLEAR            0xC4C23        #  Was: KEY_4_CLEAR
+          KEY_0                    0xC8C23        #  Was: 4_0
+          X_KEY_4_ENTER/LAST       0xCCC23        #  Was: KEY_4_ENTER/LAST
+          X_KEY_5_TIVO             0xCE0aF        #  Was: KEY_5_TIVO
+          X_KEY_5_TV_POWER         0xC08a7        #  Was: KEY_5_TV_POWER
+          X_KEY_5_TV_INPUT         0xC2Ca3        #  Was: KEY_5_TV_INPUT
+          X_KEY_5_WINDOW           0xC22aD        #  Was: KEY_5_WINDOW
+          X_KEY_5_LIVE_TV          0xC88a7        #  Was: KEY_5_LIVE_TV
+          X_KEY_5_INFO             0xCC8a7        #  Was: KEY_5_INFO
+          X_KEY_5_GUIDE            0xC6Ca3        #  Was: KEY_5_GUIDE
+          X_KEY_5_UP               0xC28a7        #  Was: KEY_5_UP
+          X_KEY_5_LEFT             0xCE8a7        #  Was: KEY_5_LEFT
+          X_KEY_5_RIGHT            0xCA8a7        #  Was: KEY_5_RIGHT
+          X_KEY_5_DOWN             0xC68a7        #  Was: KEY_5_DOWN
+          X_KEY_5_SELECT           0xC98a7        #  Was: KEY_5_SELECT
+          X_KEY_5_TH_DOWN          0xC18a7        #  Was: KEY_5_TH_DOWN
+          X_KEY_5_TH_UP            0xC58a7        #  Was: KEY_5_TH_UP
+          X_KEY_5_VOL_UP           0xC38a7        #  Was: KEY_5_VOL_UP
+          X_KEY_5_VOL_DOWN         0xCB8a7        #  Was: KEY_5_VOL_DOWN
+          X_KEY_5_MUTE             0xCD8a7        #  Was: KEY_5_MUTE
+          X_KEY_5_RECORD           0xC04aB        #  Was: KEY_5_RECORD
+          X_KEY_5_CH/PAGE_UP       0xC78a7        #  Was: KEY_5_CH/PAGE_UP
+          X_KEY_5_CH/PAGE_DOWN     0xCF8a7        #  Was: KEY_5_CH/PAGE_DOWN
+          X_KEY_5_PLAY             0xC84aB        #  Was: KEY_5_PLAY
+          X_KEY_5_REWIND           0xC44aB        #  Was: KEY_5_REWIND
+          X_KEY_5_PAUSE            0xCC4aB        #  Was: KEY_5_PAUSE
+          X_KEY_5_FORWARD          0xC24aB        #  Was: KEY_5_FORWARD
+          X_KEY_5_SLOW             0xCA4aB        #  Was: KEY_5_SLOW
+          X_KEY_5_REPLAY           0xC64aB        #  Was: KEY_5_REPLAY
+          X_KEY_5_JUMP             0xCE4aB        #  Was: KEY_5_JUMP
+          KEY_1                    0xC14aB        #  Was: 5_1
+          KEY_2                    0xC94aB        #  Was: 5_2
+          KEY_3                    0xC54aB        #  Was: 5_3
+          KEY_4                    0xCD4aB        #  Was: 5_4
+          KEY_5                    0xC34aB        #  Was: 5_5
+          KEY_6                    0xCB4aB        #  Was: 5_6
+          KEY_7                    0xC74aB        #  Was: 5_7
+          KEY_8                    0xCF4aB        #  Was: 5_8
+          KEY_9                    0xC0Ca3        #  Was: 5_9
+          X_KEY_5_CLEAR            0xC4Ca3        #  Was: KEY_5_CLEAR
+          KEY_0                    0xC8Ca3        #  Was: 5_0
+          X_KEY_5_ENTER/LAST       0xCCCa3        #  Was: KEY_5_ENTER/LAST
+          X_KEY_6_TIVO             0xCE06F        #  Was: KEY_6_TIVO
+          X_KEY_6_TV_POWER         0xC0867        #  Was: KEY_6_TV_POWER
+          X_KEY_6_TV_INPUT         0xC2C63        #  Was: KEY_6_TV_INPUT
+          X_KEY_6_WINDOW           0xC226D        #  Was: KEY_6_WINDOW
+          X_KEY_6_LIVE_TV          0xC8867        #  Was: KEY_6_LIVE_TV
+          X_KEY_6_INFO             0xCC867        #  Was: KEY_6_INFO
+          X_KEY_6_GUIDE            0xC6C63        #  Was: KEY_6_GUIDE
+          X_KEY_6_UP               0xC2867        #  Was: KEY_6_UP
+          X_KEY_6_LEFT             0xCE867        #  Was: KEY_6_LEFT
+          X_KEY_6_RIGHT            0xCA867        #  Was: KEY_6_RIGHT
+          X_KEY_6_DOWN             0xC6867        #  Was: KEY_6_DOWN
+          X_KEY_6_SELECT           0xC9867        #  Was: KEY_6_SELECT
+          X_KEY_6_TH_DOWN          0xC1867        #  Was: KEY_6_TH_DOWN
+          X_KEY_6_TH_UP            0xC5867        #  Was: KEY_6_TH_UP
+          X_KEY_6_VOL_UP           0xC3867        #  Was: KEY_6_VOL_UP
+          X_KEY_6_VOL_DOWN         0xCB867        #  Was: KEY_6_VOL_DOWN
+          X_KEY_6_MUTE             0xCD867        #  Was: KEY_6_MUTE
+          X_KEY_6_RECORD           0xC046B        #  Was: KEY_6_RECORD
+          X_KEY_6_CH/PAGE_UP       0xC7867        #  Was: KEY_6_CH/PAGE_UP
+          X_KEY_6_CH/PAGE_DOWN     0xCF867        #  Was: KEY_6_CH/PAGE_DOWN
+          X_KEY_6_PLAY             0xC846B        #  Was: KEY_6_PLAY
+          X_KEY_6_REWIND           0xC446B        #  Was: KEY_6_REWIND
+          X_KEY_6_PAUSE            0xCC46B        #  Was: KEY_6_PAUSE
+          X_KEY_6_FORWARD          0xC246B        #  Was: KEY_6_FORWARD
+          X_KEY_6_SLOW             0xCA46B        #  Was: KEY_6_SLOW
+          X_KEY_6_REPLAY           0xC646B        #  Was: KEY_6_REPLAY
+          X_KEY_6_JUMP             0xCE46B        #  Was: KEY_6_JUMP
+          KEY_1                    0xC146B        #  Was: 6_1
+          KEY_2                    0xC946B        #  Was: 6_2
+          KEY_3                    0xC546B        #  Was: 6_3
+          KEY_4                    0xCD46B        #  Was: 6_4
+          KEY_5                    0xC346B        #  Was: 6_5
+          KEY_6                    0xCB46B        #  Was: 6_6
+          KEY_7                    0xC746B        #  Was: 6_7
+          KEY_8                    0xCF46B        #  Was: 6_8
+          KEY_9                    0xC0C63        #  Was: 6_9
+          X_KEY_6_CLEAR            0xC4C63        #  Was: KEY_6_CLEAR
+          KEY_0                    0xC8C63        #  Was: 6_0
+          X_KEY_6_ENTER/LAST       0xCCC63        #  Was: KEY_6_ENTER/LAST
+          X_KEY_7_TIVO             0xCE0eF        #  Was: KEY_7_TIVO
+          X_KEY_7_TV_POWER         0xC08e7        #  Was: KEY_7_TV_POWER
+          X_KEY_7_TV_INPUT         0xC2Ce3        #  Was: KEY_7_TV_INPUT
+          X_KEY_7_WINDOW           0xC22eD        #  Was: KEY_7_WINDOW
+          X_KEY_7_LIVE_TV          0xC88e7        #  Was: KEY_7_LIVE_TV
+          X_KEY_7_INFO             0xCC8e7        #  Was: KEY_7_INFO
+          X_KEY_7_GUIDE            0xC6Ce3        #  Was: KEY_7_GUIDE
+          X_KEY_7_UP               0xC28e7        #  Was: KEY_7_UP
+          X_KEY_7_LEFT             0xCE8e7        #  Was: KEY_7_LEFT
+          X_KEY_7_RIGHT            0xCA8e7        #  Was: KEY_7_RIGHT
+          X_KEY_7_DOWN             0xC68e7        #  Was: KEY_7_DOWN
+          X_KEY_7_SELECT           0xC98e7        #  Was: KEY_7_SELECT
+          X_KEY_7_TH_DOWN          0xC18e7        #  Was: KEY_7_TH_DOWN
+          X_KEY_7_TH_UP            0xC58e7        #  Was: KEY_7_TH_UP
+          X_KEY_7_VOL_UP           0xC38e7        #  Was: KEY_7_VOL_UP
+          X_KEY_7_VOL_DOWN         0xCB8e7        #  Was: KEY_7_VOL_DOWN
+          X_KEY_7_MUTE             0xCD8e7        #  Was: KEY_7_MUTE
+          X_KEY_7_RECORD           0xC04eB        #  Was: KEY_7_RECORD
+          X_KEY_7_CH/PAGE_UP       0xC78e7        #  Was: KEY_7_CH/PAGE_UP
+          X_KEY_7_CH/PAGE_DOWN     0xCF8e7        #  Was: KEY_7_CH/PAGE_DOWN
+          X_KEY_7_PLAY             0xC84eB        #  Was: KEY_7_PLAY
+          X_KEY_7_REWIND           0xC44eB        #  Was: KEY_7_REWIND
+          X_KEY_7_PAUSE            0xCC4eB        #  Was: KEY_7_PAUSE
+          X_KEY_7_FORWARD          0xC24eB        #  Was: KEY_7_FORWARD
+          X_KEY_7_SLOW             0xCA4eB        #  Was: KEY_7_SLOW
+          X_KEY_7_REPLAY           0xC64eB        #  Was: KEY_7_REPLAY
+          X_KEY_7_JUMP             0xCE4eB        #  Was: KEY_7_JUMP
+          KEY_1                    0xC14eB        #  Was: 7_1
+          KEY_2                    0xC94eB        #  Was: 7_2
+          KEY_3                    0xC54eB        #  Was: 7_3
+          KEY_4                    0xCD4eB        #  Was: 7_4
+          KEY_5                    0xC34eB        #  Was: 7_5
+          KEY_6                    0xCB4eB        #  Was: 7_6
+          KEY_7                    0xC74eB        #  Was: 7_7
+          KEY_8                    0xCF4eB        #  Was: 7_8
+          KEY_9                    0xC0Ce3        #  Was: 7_9
+          X_KEY_7_CLEAR            0xC4Ce3        #  Was: KEY_7_CLEAR
+          KEY_0                    0xC8Ce3        #  Was: 7_0
+          X_KEY_7_ENTER/LAST       0xCCCe3        #  Was: KEY_7_ENTER/LAST
+          X_KEY_8_TIVO             0xCE01F        #  Was: KEY_8_TIVO
+          X_KEY_8_TV_POWER         0xC0817        #  Was: KEY_8_TV_POWER
+          X_KEY_8_TV_INPUT         0xC2C13        #  Was: KEY_8_TV_INPUT
+          X_KEY_8_WINDOW           0xC221D        #  Was: KEY_8_WINDOW
+          X_KEY_8_LIVE_TV          0xC8817        #  Was: KEY_8_LIVE_TV
+          X_KEY_8_INFO             0xCC817        #  Was: KEY_8_INFO
+          X_KEY_8_GUIDE            0xC6C13        #  Was: KEY_8_GUIDE
+          X_KEY_8_UP               0xC2817        #  Was: KEY_8_UP
+          X_KEY_8_LEFT             0xCE817        #  Was: KEY_8_LEFT
+          X_KEY_8_RIGHT            0xCA817        #  Was: KEY_8_RIGHT
+          X_KEY_8_DOWN             0xC6817        #  Was: KEY_8_DOWN
+          X_KEY_8_SELECT           0xC9817        #  Was: KEY_8_SELECT
+          X_KEY_8_TH_DOWN          0xC1817        #  Was: KEY_8_TH_DOWN
+          X_KEY_8_TH_UP            0xC5817        #  Was: KEY_8_TH_UP
+          X_KEY_8_VOL_UP           0xC3817        #  Was: KEY_8_VOL_UP
+          X_KEY_8_VOL_DOWN         0xCB817        #  Was: KEY_8_VOL_DOWN
+          X_KEY_8_MUTE             0xCD817        #  Was: KEY_8_MUTE
+          X_KEY_8_RECORD           0xC041B        #  Was: KEY_8_RECORD
+          X_KEY_8_CH/PAGE_UP       0xC7817        #  Was: KEY_8_CH/PAGE_UP
+          X_KEY_8_CH/PAGE_DOWN     0xCF817        #  Was: KEY_8_CH/PAGE_DOWN
+          X_KEY_8_PLAY             0xC841B        #  Was: KEY_8_PLAY
+          X_KEY_8_REWIND           0xC441B        #  Was: KEY_8_REWIND
+          X_KEY_8_PAUSE            0xCC41B        #  Was: KEY_8_PAUSE
+          X_KEY_8_FORWARD          0xC241B        #  Was: KEY_8_FORWARD
+          X_KEY_8_SLOW             0xCA41B        #  Was: KEY_8_SLOW
+          X_KEY_8_REPLAY           0xC641B        #  Was: KEY_8_REPLAY
+          X_KEY_8_JUMP             0xCE41B        #  Was: KEY_8_JUMP
+          KEY_1                    0xC141B        #  Was: 8_1
+          KEY_2                    0xC941B        #  Was: 8_2
+          KEY_3                    0xC541B        #  Was: 8_3
+          KEY_4                    0xCD41B        #  Was: 8_4
+          KEY_5                    0xC341B        #  Was: 8_5
+          KEY_6                    0xCB41B        #  Was: 8_6
+          KEY_7                    0xC741B        #  Was: 8_7
+          KEY_8                    0xCF41B        #  Was: 8_8
+          KEY_9                    0xC0C13        #  Was: 8_9
+          X_KEY_8_CLEAR            0xC4C13        #  Was: KEY_8_CLEAR
+          KEY_0                    0xC8C13        #  Was: 8_0
+          X_KEY_8_ENTER/LAST       0xCCC13        #  Was: KEY_8_ENTER/LAST
+          X_KEY_9_TIVO             0xCE09F        #  Was: KEY_9_TIVO
+          X_KEY_9_TV_POWER         0xC0897        #  Was: KEY_9_TV_POWER
+          X_KEY_9_TV_INPUT         0xC2C93        #  Was: KEY_9_TV_INPUT
+          X_KEY_9_WINDOW           0xC229D        #  Was: KEY_9_WINDOW
+          X_KEY_9_LIVE_TV          0xC8897        #  Was: KEY_9_LIVE_TV
+          X_KEY_9_INFO             0xCC897        #  Was: KEY_9_INFO
+          X_KEY_9_GUIDE            0xC6C93        #  Was: KEY_9_GUIDE
+          X_KEY_9_UP               0xC2897        #  Was: KEY_9_UP
+          X_KEY_9_LEFT             0xCE897        #  Was: KEY_9_LEFT
+          X_KEY_9_RIGHT            0xCA897        #  Was: KEY_9_RIGHT
+          X_KEY_9_DOWN             0xC6897        #  Was: KEY_9_DOWN
+          X_KEY_9_SELECT           0xC9897        #  Was: KEY_9_SELECT
+          X_KEY_9_TH_DOWN          0xC1897        #  Was: KEY_9_TH_DOWN
+          X_KEY_9_TH_UP            0xC5897        #  Was: KEY_9_TH_UP
+          X_KEY_9_VOL_UP           0xC3897        #  Was: KEY_9_VOL_UP
+          X_KEY_9_VOL_DOWN         0xCB897        #  Was: KEY_9_VOL_DOWN
+          X_KEY_9_MUTE             0xCD897        #  Was: KEY_9_MUTE
+          X_KEY_9_RECORD           0xC049B        #  Was: KEY_9_RECORD
+          X_KEY_9_CH/PAGE_UP       0xC7897        #  Was: KEY_9_CH/PAGE_UP
+          X_KEY_9_CH/PAGE_DOWN     0xCF897        #  Was: KEY_9_CH/PAGE_DOWN
+          X_KEY_9_PLAY             0xC849B        #  Was: KEY_9_PLAY
+          X_KEY_9_REWIND           0xC449B        #  Was: KEY_9_REWIND
+          X_KEY_9_PAUSE            0xCC49B        #  Was: KEY_9_PAUSE
+          X_KEY_9_FORWARD          0xC249B        #  Was: KEY_9_FORWARD
+          X_KEY_9_SLOW             0xCA49B        #  Was: KEY_9_SLOW
+          X_KEY_9_REPLAY           0xC649B        #  Was: KEY_9_REPLAY
+          X_KEY_9_JUMP             0xCE49B        #  Was: KEY_9_JUMP
+          KEY_1                    0xC149B        #  Was: 9_1
+          KEY_2                    0xC949B        #  Was: 9_2
+          KEY_3                    0xC549B        #  Was: 9_3
+          KEY_4                    0xCD49B        #  Was: 9_4
+          KEY_5                    0xC349B        #  Was: 9_5
+          KEY_6                    0xCB49B        #  Was: 9_6
+          KEY_7                    0xC749B        #  Was: 9_7
+          KEY_8                    0xCF49B        #  Was: 9_8
+          KEY_9                    0xC0C93        #  Was: 9_9
+          X_KEY_9_CLEAR            0xC4C93        #  Was: KEY_9_CLEAR
+          KEY_0                    0xC8C93        #  Was: 9_0
+          X_KEY_9_ENTER/LAST       0xCCC93        #  Was: KEY_9_ENTER/LAST
+      end codes
+
+end remote
