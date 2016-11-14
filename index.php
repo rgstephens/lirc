@@ -62,16 +62,41 @@
       <div class="jumbotron">
 	<h1>IR Page</h1>
       </div>
-	<div className="btn-group" role="group" aria-label="A/V Source">
+	  <div class="panel panel-primary">
+	    <div class="panel-heading">
+	      <h3 class="panel-title">Tivo Commands</h3>
+	    </div>
+	    <div class="panel-body">
+	<div className="btn-group" role="group" aria-label="Tivo Commands">
+	  <a href="?input=pause" role="button" class="btn btn-primary">Pause</a>
+	  <a href="?input=play" role="button" class="btn btn-primary">Play</a>
+	  <a href="?input=slow" role="button" class="btn btn-primary">Slow</a>
+        </div>
+	    </div>
+	  </div>
+<br>
+	  <div className="btn-group" role="group" aria-label="A/V Source">
 	  <a href="?input=tivo" role="button" class="btn btn-primary">Tivo</a>
 	  <a href="?input=google" role="button" class="btn btn-primary">Google</a>
           <a href="?input=amazon" role="button" class="btn btn-primary">Amazon</a>
           <a href="?input=dvd" role="button" class="btn btn-primary">DVD</a>
           <a href="?input=off" role="button" class="btn btn-danger">Off</a>
         </div>
+<br>
+	<div className="btn-group" role="group" aria-label="Tivo Commands">
+	  <a href="?input=pause" role="button" class="btn btn-primary">Pause</a>
+	  <a href="?input=play" role="button" class="btn btn-primary">Play</a>
+	  <a href="?input=slow" role="button" class="btn btn-primary">Slow</a>
+        </div>
+<br>
+	<div className="btn-group" role="group" aria-label="Troubleshooting">
+	  <a href="?input=remotes" role="button" class="btn btn-primary">List Remotes</a>
+	  <a href="?input=mytivo" role="button" class="btn btn-primary">mytivo</a>
+	  <a href="?input=myonkyo" role="button" class="btn btn-primary">myonkyo</a>
+        </div>
 
       <div class="page-header">
-	<h3>Results</h3>
+	<h3>Output</h3>
       </div>
       <div class="well">
 	<?php
@@ -89,10 +114,35 @@
 	   case "dvd":
 	   exec("echo dvd >> /tmp/php.log");
 	   break;
+	   case "pause":
+	   exec("echo pause >> /tmp/php.log");
+	   $output = shell_exec("irsend SEND_ONCE mytivo KEY_PAUSE 2>&1");
+	   echo "$output";
+	   break;
+	   case "play":
+	   exec("echo play >> /tmp/php.log");
+	   $output = shell_exec("irsend SEND_ONCE mytivo KEY_PLAY 2>&1");
+	   echo "$output";
+	   break;
+	   default:
+	   case "slow":
+	   exec("echo slow >> /tmp/php.log");
+	   $output = shell_exec("irsend SEND_ONCE mytivo KEY_SLOW KEY_SLOW KEY_SLOW KEY_SLOW 2>&1");
+	   echo "$output";
+	   break;
+	   case "list":
+	   exec("echo list >> /tmp/php.log");
+	   $output = shell_exec('irsend LIST \'\' \'\' 2>&1');
+	   echo "$output";
+	   break;
+	   case "mytivo":
+	   exec("echo mytivo >> /tmp/php.log");
+	   $output = shell_exec('irsend LIST mytivo \'\' 2>&1');
+	   echo "$output";
+	   break;
 	   default:
 	   exec("echo default >> /tmp/php.log");
 	   }
-	   echo "done";
 	   }
 	      ?>
       </div>
@@ -111,10 +161,14 @@
 	<div class="col-sm-4">
 	  <div class="panel panel-primary">
 	    <div class="panel-heading">
-	      <h3 class="panel-title">Panel title</h3>
+	      <h3 class="panel-title">Tivo Commands</h3>
 	    </div>
 	    <div class="panel-body">
-	      Panel content
+	<div className="btn-group" role="group" aria-label="Tivo Commands">
+	  <a href="?input=pause" role="button" class="btn btn-primary">Pause</a>
+	  <a href="?input=play" role="button" class="btn btn-primary">Play</a>
+	  <a href="?input=slow" role="button" class="btn btn-primary">Slow</a>
+        </div>
 	    </div>
 	  </div>
 	  <div class="panel panel-info">
