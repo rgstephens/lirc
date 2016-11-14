@@ -13,6 +13,7 @@ case "$1" in
     # in case your lirc dev points are not created automatically, the next
     # line will create them.
     test -c /dev/lirc-mce || (mkdir -p -- . /dev && /bin/mknod /dev/lirc-mce c 61 0)
+    mkdir /run/lirc
     echo -n "Starting lirc daemon: lircd"
     start-stop-daemon --start --quiet --exec /usr/sbin/lircd -- --device=/dev/lirc-mce
     echo "."
