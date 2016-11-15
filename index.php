@@ -37,7 +37,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">IR Page</a>
+            <a class="navbar-brand" href="/">IR Page</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -60,15 +60,22 @@
     </div>
 </nav>
 
-<div class="container theme-showcase" role="main">
-
+<div class="container theme-showcase" role="main" style="margin-top: 80px; ">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1>IR Page</h1>
-    </div>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">System</h3>
+        </div>
+        <div class="panel-body">
+            <div className="btn-group" role="group" aria-label="A/V Source">
+                <a href="?input=on" role="button" class="btn btn-success">On</a>
+                <a href="?input=off" role="button" class="btn btn-danger">Off</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Source</h3>
         </div>
         <div class="panel-body">
             <div className="btn-group" role="group" aria-label="A/V Source">
@@ -76,32 +83,50 @@
                 <a href="?input=google" role="button" class="btn btn-primary">Google</a>
                 <a href="?input=amazon" role="button" class="btn btn-primary">Amazon</a>
                 <a href="?input=dvd" role="button" class="btn btn-primary">DVD</a>
-                <a href="?input=off" role="button" class="btn btn-danger">Off</a>
             </div>
         </div>
     </div>
-    <br>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Channels</h3>
+        </div>
+        <div class="panel-body">
+            <div className="btn-group" role="group" aria-label="Tivo Commands">
+                <a href="?channel=104" role="button" class="btn btn-primary">KOMO</a>
+                <a href="?channel=109" role="button" class="btn btn-primary">PBS</a>
+                <a href="?channel=113" role="button" class="btn btn-primary">Fox</a>
+                <a href="?channel=131" role="button" class="btn btn-primary">BBC</a>
+                <a href="?channel=623" role="button" class="btn btn-success">ESPN</a>
+                <a href="?channel=625" role="button" class="btn btn-success">Golf</a>
+                <a href="?channel=628" role="button" class="btn btn-success">Pac12</a>
+                <a href="?channel=675" role="button" class="btn btn-info">Food</a>
+            </div>
+        </div>
+    </div>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Tivo Commands</h3>
         </div>
         <div class="panel-body">
             <div className="btn-group" role="group" aria-label="Tivo Commands">
-                <a href="?input=pause" role="button" class="btn btn-primary">Pause</a>
-                <a href="?input=play" role="button" class="btn btn-primary">Play</a>
-                <a href="?input=slow" role="button" class="btn btn-primary">Slow</a>
+                <a href="?tivo=KEY_PAUSE" role="button" class="btn btn-primary">Play/Pause</a>
+                <a href="?tivo=KEY_PLAY" role="button" class="btn btn-primary">Play</a>
+                <a href="?tivo=KEY_SLOW" role="button" class="btn btn-primary">Slow</a>
+                <a href="?tivo=TIVO" role="button" class="btn btn-primary">Tivo</a>
+                <a href="?tivo=X_1_KEY_LIVE_TV" role="button" class="btn btn-primary">Live</a>
             </div>
         </div>
     </div>
     <br>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Tivo Commands</h3>
+            <h3 class="panel-title">Troubleshooting</h3>
         </div>
         <div class="panel-body">
             <div className="btn-group" role="group" aria-label="Troubleshooting">
                 <a href="?input=remotes" role="button" class="btn btn-primary">List Remotes</a>
                 <a href="?input=mytivo" role="button" class="btn btn-primary">mytivo</a>
+                <a href="?input=tivoglonew" role="button" class="btn btn-primary">tivoglonew</a>
                 <a href="?input=myonkyo" role="button" class="btn btn-primary">myonkyo</a>
             </div>
         </div>
@@ -114,35 +139,52 @@
         <?php
         if ($_GET['input']) {
             switch ($_GET['input']) {
+                case "on":
+                    exec("echo on >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE myonkyo KEY_POWER 2>&1");
+                    $output = shell_exec("irsend SEND_ONCE vizio KEY_POWER 2>&1");
+                    echo "$output";
+                    break;
+                case "off":
+                    exec("echo off >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE myonkyo KEY_POWER 2>&1");
+                    $output = shell_exec("irsend SEND_ONCE vizio KEY_POWER 2>&1");
+                    echo "$output";
+                    break;
                 case "tivo":
                     exec("echo tivo >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE myonkyo KEY_F3 2>&1");
+                    echo "$output";
                     break;
                 case "google":
                     exec("echo google >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE myonkyo KEY_F4 2>&1");
                     break;
                 case "amazon":
                     exec("echo amazon >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE myonkyo KEY_F2 2>&1");
                     break;
                 case "dvd":
                     exec("echo dvd >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE myonkyo KEY_F1 2>&1");
                     break;
                 case "pause":
                     exec("echo pause >> /tmp/php.log");
                     $output = shell_exec("irsend SEND_ONCE mytivo KEY_PAUSE 2>&1");
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_PAUSE 2>&1");
                     echo "$output";
                     break;
                 case "play":
                     exec("echo play >> /tmp/php.log");
-                    $output = shell_exec("irsend SEND_ONCE mytivo KEY_PLAY 2>&1");
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_PLAY 2>&1");
                     echo "$output";
                     break;
-                default:
                 case "slow":
                     exec("echo slow >> /tmp/php.log");
-                    $output = shell_exec("irsend SEND_ONCE mytivo KEY_SLOW KEY_SLOW KEY_SLOW KEY_SLOW 2>&1");
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_SLOW 2>&1");
                     echo "$output";
                     break;
-                case "list":
+                case "remotes":
                     exec("echo list >> /tmp/php.log");
                     $output = shell_exec('irsend LIST \'\' \'\' 2>&1');
                     echo "$output";
@@ -152,9 +194,73 @@
                     $output = shell_exec('irsend LIST mytivo \'\' 2>&1');
                     echo "$output";
                     break;
+                case "tivoglonew":
+                    exec("echo mytivo >> /tmp/php.log");
+                    $output = shell_exec('irsend LIST tivoglonew \'\' 2>&1');
+                    echo "$output";
+                    break;
+                case "myonkyo":
+                    exec("echo mytivo >> /tmp/php.log");
+                    $output = shell_exec('irsend LIST myonkyo \'\' 2>&1');
+                    echo "$output";
+                    break; 
+                case "start":
+                    exec("echo start >> /tmp/php.log");
+                    $output = shell_exec('sudo /etc/init.d/lircd start 2>&1');
+                    echo "$output";
+                    break;
+                case "stop":
+                    exec("echo stop >> /tmp/php.log");
+                    $output = shell_exec('sudo /etc/init.d/lircd stop 2>&1');
+                    echo "$output";
+                    break;
                 default:
                     exec("echo default >> /tmp/php.log");
+                    echo "Command not found";
             }
+        }
+        if ($_GET['tivo']) {
+           $key = $_GET['tivo'];
+           $output = shell_exec("irsend SEND_ONCE tivoglo " . $key . " 2>&1");
+           echo "$output";
+        }
+        if ($_GET['channel']) {
+           $channel = str_split($_GET['channel']);
+           foreach ($channel as $val) {
+              switch($val) {
+                 case "0":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_0 2>&1");
+                    break;
+                 case "1":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_1 2>&1");
+                    break;
+                 case "2":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_2 2>&1");
+                    break;
+                 case "3":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_3 2>&1");
+                    break;
+                 case "4":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_4 2>&1");
+                    break;
+                 case "5":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_5 2>&1");
+                    break;
+                 case "6":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_6 2>&1");
+                    break;
+                 case "7":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_7 2>&1");
+                    break;
+                 case "8":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_8 2>&1");
+                    break;
+                 case "9":
+                    $output = shell_exec("irsend SEND_ONCE tivoglo KEY_9 2>&1");
+                    break;
+              }
+              usleep(500000);
+           }
         }
         ?>
     </div>
@@ -164,34 +270,6 @@
     </div>
     <div class="alert alert-info" role="alert">
         <strong>Sample Alert</strong> This alert needs your attention
-    </div>
-
-    <div class="page-header">
-        <h3>Panels</h3>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Tivo Commands</h3>
-                </div>
-                <div class="panel-body">
-                    <div className="btn-group" role="group" aria-label="Tivo Commands">
-                        <a href="?input=pause" role="button" class="btn btn-primary">Pause</a>
-                        <a href="?input=play" role="button" class="btn btn-primary">Play</a>
-                        <a href="?input=slow" role="button" class="btn btn-primary">Slow</a>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                    Panel content
-                </div>
-            </div>
-        </div><!-- /.col-sm-4 -->
     </div>
 
 </div> <!-- /container -->
