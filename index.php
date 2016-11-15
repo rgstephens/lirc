@@ -64,12 +64,13 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">System</h3>
+            <h3 class="panel-title">Power On/Off</h3>
         </div>
         <div class="panel-body">
             <div className="btn-group" role="group" aria-label="A/V Source">
-                <a href="?input=on" role="button" class="btn btn-success">On</a>
-                <a href="?input=off" role="button" class="btn btn-danger">Off</a>
+                <a href="?input=on" role="button" class="btn btn-success">All</a>
+                <a href="?input=vizio" role="button" class="btn btn-danger">Vizio</a>
+                <a href="?input=onkyo" role="button" class="btn btn-danger">Onkyo</a>
             </div>
         </div>
     </div>
@@ -92,7 +93,9 @@
         </div>
         <div class="panel-body">
             <div className="btn-group" role="group" aria-label="Tivo Commands">
-                <a href="?channel=104" role="button" class="btn btn-primary">KOMO</a>
+                <a href="?channel=104" role="button" class="btn btn-primary">ABC</a>
+                <a href="?channel=105" role="button" class="btn btn-primary">NBC</a>
+                <a href="?channel=107" role="button" class="btn btn-primary">CBS</a>
                 <a href="?channel=109" role="button" class="btn btn-primary">PBS</a>
                 <a href="?channel=113" role="button" class="btn btn-primary">Fox</a>
                 <a href="?channel=131" role="button" class="btn btn-primary">BBC</a>
@@ -113,7 +116,7 @@
                 <a href="?tivo=KEY_PLAY" role="button" class="btn btn-primary">Play</a>
                 <a href="?tivo=KEY_SLOW" role="button" class="btn btn-primary">Slow</a>
                 <a href="?tivo=TIVO" role="button" class="btn btn-primary">Tivo</a>
-                <a href="?tivo=X_1_KEY_LIVE_TV" role="button" class="btn btn-primary">Live</a>
+                <a href="?tivo=X_KEY_1_LIVE_TV" role="button" class="btn btn-primary">Live</a>
             </div>
         </div>
     </div>
@@ -145,10 +148,14 @@
                     $output = shell_exec("irsend SEND_ONCE vizio KEY_POWER 2>&1");
                     echo "$output";
                     break;
-                case "off":
+                case "vizio":
+                    exec("echo off >> /tmp/php.log");
+                    $output = shell_exec("irsend SEND_ONCE vizio KEY_POWER 2>&1");
+                    echo "$output";
+                    break;
+                case "onkyo":
                     exec("echo off >> /tmp/php.log");
                     $output = shell_exec("irsend SEND_ONCE myonkyo KEY_POWER 2>&1");
-                    $output = shell_exec("irsend SEND_ONCE vizio KEY_POWER 2>&1");
                     echo "$output";
                     break;
                 case "tivo":
